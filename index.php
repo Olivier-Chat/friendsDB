@@ -1,28 +1,13 @@
 <?php
-require '_connec.php';
-$firstname ="";
-$lastname ="";
-function cleanInput(string $inputValue):string
-{
-    $result = trim($inputValue);
-    $result = stripslashes($result);
-    $result = htmlspecialchars($result);
-    return $result;
-}
-$pdo = new \PDO(DSN, USER, PASS);
-
-$query = "INSERT INTO friend (firstname, lastname) VALUES (:firstname, :lastname)";
-$statement = $pdo -> prepare($query);
-if (isset($_POST['firstname'],$_POST['lastname'])){
-    $firstname = cleanInput($_POST['firstname']);
-    $lastname = cleanInput($_POST['lastname']);
-    $statement ->bindValue(':firstname',$firstname,PDO::PARAM_STR);
-    $statement ->bindValue(':lastname',$lastname,PDO::PARAM_STR);
-    $statement -> execute();
-}
+require'connexion.php';
 $statement = $pdo -> query('SELECT * FROM friend');
 $friends = $statement -> fetchAll(PDO::FETCH_ASSOC);
-
+$firstnameValue = "";
+$lastnameValue = "";
+if (isset($_GET['firstname'],$_GET['lastname'])){
+    $firstnameValue = $_GET['firstname'];
+    $lastnameValue = $_GET['lastname'];
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -41,11 +26,11 @@ $friends = $statement -> fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach;?>
     </ul>
     <h2>Add a new character</h2>
-    <form action="" method="post">
+    <form action="dataTreatment.php" method="post">
         <label for="firstname">First Name: </label>
-        <input type="text" name="firstname" id="firstname">
+        <input type="text" name="firstname" id="firstname" value="<?=$firstnameValue?>">
         <label for="lastname">Last Name: </label>
-        <input type="text" name="lastname" id="lastname">
+        <input type="text" name="lastname" id="lastname"value="<?=$lastnameValue?>">
         <button>add</button>
     </form>
 </body>
