@@ -27,10 +27,20 @@ if (isset($_GET['firstname'],$_GET['lastname'])){
     </ul>
     <h2>Add a new character</h2>
     <form action="dataTreatment.php" method="post">
-        <label for="firstname">First Name: </label>
-        <input type="text" name="firstname" id="firstname" value="<?=$firstnameValue?>">
-        <label for="lastname">Last Name: </label>
-        <input type="text" name="lastname" id="lastname"value="<?=$lastnameValue?>">
+        <p>
+            <label for="firstname">First Name: </label>
+            <input type="text" name="firstname" id="firstname" value="<?=$firstnameValue?>">
+            <?php if(isset ($_GET['errorFirstname'])):?>
+            <p><?=$_GET['errorFirstname']?></p>
+            <?php endif;?>
+        </p>
+        <p>
+            <label for="lastname">Last Name: </label>
+            <input type="text" name="lastname" id="lastname"value="<?=$lastnameValue?>">
+            <?php if(isset ($_GET['errorLastname'])):?>
+            <p><?=$_GET['errorLastname']?></p>
+            <?php endif;?>
+        </p>
         <button>add</button>
     </form>
 </body>
